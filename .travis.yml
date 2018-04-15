@@ -18,6 +18,6 @@ before_install:
   - make test-env
   - cat tests/virtualenvs/testenv_requirements.txt
 install: pip install .
-script: py.test -v
+script: py.test -s tests/test_pipdeptree.py::test_render_json_tree
 after_script: make clean clean-env
 sudo: false
