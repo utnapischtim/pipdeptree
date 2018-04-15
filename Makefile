@@ -7,7 +7,7 @@ clean:
 
 clean-env:
 	rm -rf tests/virtualenvs/{testenv,cyclicenv,unsatisfiedenv}
-	rm tests/virtualenvs/*.pickle
+	rm -f tests/virtualenvs/*.pickle
 
 test-env:
 	pip install tox
