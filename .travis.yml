@@ -16,6 +16,7 @@ before_install:
   - pip install -U pip>=8.0.2
   - pip install graphviz
   - make test-env
+  - cat tests/virtualenvs/testenv_requirements.txt
 install: pip install .
 script: py.test -v
 after_script: make clean clean-env
