@@ -366,6 +366,9 @@ def render_json_tree(tree, indent):
     tree = sorted_tree(tree)
     branch_keys = set(r.key for r in flatten(tree.values()))
     nodes = [p for p in tree.keys() if p.key not in branch_keys]
+    print(tree)
+    print(branch_keys)
+    print(nodes)
     key_tree = dict((k.key, v) for k, v in tree.items())
     get_children = lambda n: key_tree.get(n.key, [])
 
