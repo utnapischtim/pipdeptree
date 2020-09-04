@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+if [ "$#" -eq "1" ]
+then
+  module=$1
+  pipdeptree -l -p $module --graph-output svg > "deps/${module}.svg"
+elif [ "$#" -eq "2" ]
+then
+  module=$1
+  pipdeptree -r -l -p $module --graph-output svg > "deps/${module}-rev.svg"
+else
+  echo "wrong arguments length"
+  echo "first parameter is the module second option is if it should be reversed"
+fi
+
