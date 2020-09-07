@@ -1,8 +1,15 @@
-from typing import Dict, Type, Any
+from typing import Type, TypedDict, Any
 from pip._internal.operations.freeze import FrozenRequirement
 
 
-def frozen_req_from_dist(dist):
+class PackageType(TypedDict):
+    key: str
+    project_name: str
+    package_name: str
+    installed_version: str
+
+
+def frozen_req_from_dist(dist: str) -> FrozenRequirement:
     try:
         return FrozenRequirement.from_dist(dist)
     except TypeError:
@@ -17,10 +24,10 @@ class Package(object):
 
     """
 
-    def __init__(self, obj: Dict[Any, Any]) -> None:
+    def __init__(self, obj: PackageType) -> None:
         self._obj = obj
-        self.project_name = obj.project_name
-        self.key = obj.key
+        self.project_name = obj.get("project_name")
+        self.key = obj.get("key")
 
     def render_as_root(self, frozen: bool) -> Type[NotImplementedError]:
         return NotImplementedError
@@ -28,18 +35,18 @@ class Package(object):
     def render_as_branch(self, frozen: bool) -> Type[NotImplementedError]:
         return NotImplementedError
 
-    def render(self, parent=None, frozen: bool = False) -> str:
-        if not parent:
-            return self.render_as_root(frozen)
-        else:
+    def render(self, parent: str = None, frozen: bool = False) -> Type[NotImplementedError]:
+        if parent:
             return self.render_as_branch(frozen)
+        else:
+            return self.render_as_root(frozen)
 
     @staticmethod
-    def frozen_repr(obj) -> str:
+    def frozen_repr(obj: str) -> str:
         fr = frozen_req_from_dist(obj)
         return str(fr).strip()
 
-    def __getattr__(self, key) -> str:
+    def __getattr__(self, key: str) -> Any:
         return getattr(self._obj, key)
 
     def __repr__(self) -> str:
